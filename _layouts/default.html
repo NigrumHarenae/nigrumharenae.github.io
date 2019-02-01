@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{{ page.title }}</title>
+<link href="../../../../../../main_AKO_icon.ico" rel="shortcut icon">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+ <body>
+<div class="topnav" id="myTopnav">
+<a href="/" class="button">Home</a>
+<a href="/about" class="button">About</a>
+<a href="/blog" class="button">Blog</a>
+<a href="/music" class="button">Media</a>
+<a href="/locate" class="button">Lat&Lng</a>
+<a href="/game" class="button">Map Puzzle</a>
+<a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>
+
+<div class="container">
+
+  {{ content }}
+
+</div>
+
+<script>
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+</script>
+
+</body>
+</html>

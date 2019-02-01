@@ -1,0 +1,195 @@
+---
+layout: default
+title: Google Lat&Lng Search
+---
+		<link rel="shortcut icon" type="image/ico" href="yugo.ico">
+		<div class="locate">
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByy2IyWRDB7rF-CUD1DaPWOPHQ68PMgf8&sensor=false&libraries=places" type="text/javascript"></script>
+<script type="text/javascript">
+	window.onload = function() {
+		var geo = new  geoEach();
+		var toLatLngBtn = document.getElementById('toLatLngBtn');
+		//批量解析地名到经纬度
+		toLatLngBtn.onclick = function(){
+			var area = document.getElementById('addrs').value;
+		  area=area.split('\n');
+			var sh;
+			var i = 0;
+			sh = window.setInterval(function() {
+				if (i < area.length) {
+					geo.toLatLng(area[i]);
+			} else {
+				window.clearInterval(sh);
+			}
+			i++;
+			}, 500);
+		} 
+		//批量解析经纬度到地名
+		var toAddressBtn = document.getElementById('toAddressBtn');
+		toAddressBtn.onclick = function(){
+			var latLngs = document.getElementById('latLngs').value;
+		  latLngs = latLngs.split('\n');
+			var sh;
+			var i = 0;
+			var sh = window.setInterval(function() {
+				if (i < latLngs.length) {
+					geo.toAddress(latLngs[i]);
+				} else {
+					window.clearInterval(sh);
+				}
+				i++;
+			}, 500);
+		} 
+	}
+	/*
+	* 函数名：  geoEach()
+	* 功能：地名解析成经纬度,经纬度解析成地名
+	* 使用方法：
+	  //初始化
+	  var geo = new  geoEach();
+	  // 解析地名 传入值地名 结果：纬度lat,经度lng
+	  geo.toLatLng(地名);
+	  // 解析经纬度 传入值（纬度lat,经度lng）：26.57, 106.72 结果是地名
+	  geo.toAddress(经纬度字符串);
+	*/
+	function  geoEach() {
+		//初始化地图
+		 geoEach.map = new google.maps.Map(document.getElementById("map_canvas"),{
+					center : new google.maps.LatLng(25.1942462, 121.56093629999998),
+					zoom : 14,
+					mapTypeId : google.maps.MapTypeId.ROADMAP
+		});
+		//添加一个marker
+		 geoEach.marker = new google.maps.Marker({map:  geoEach.map,position: new google.maps.LatLng(25.1942462, 121.56093629999998)});
+		//实例化Geocoder服务
+		 geoEach.geocoder = new google.maps.Geocoder();
+	}
+	 geoEach.address = null;//需要解析的地名
+	 geoEach.latLng = null;//需要解析的经纬度字符串
+	 geoEach.prototype = {
+		//解析地名
+		toLatLng : function(address) {
+			//接收
+			 geoEach.address = address;
+			//执行geocode解析地名
+			 geoEach.geocoder.geocode({
+				//传入地名
+				'address' :  geoEach.address
+			}, function(results, status) {
+				//create div
+				var newElement = window.document.createElement('p');
+				if (status == google.maps.GeocoderStatus.OK) {
+					//获取解析后的经纬度
+					var location = results[0].geometry.location;
+					//切换地图位置
+					 geoEach.map.setCenter(location);
+					 geoEach.marker.setPosition(location);
+				
+					// location is like (26.647449, 106.63014299999998) so we should clear '(' in zhe start of this string and ')' in end;
+					var latLng = location.toString().substr(1,location.toString().indexOf(')') - 1);
+					// insert innerHTML
+					newElement.innerHTML =  geoEach.address + "：" + latLng;
+				} else {
+					// insert error innerHTML
+					newElement.innerHTML =  geoEach.address + "：error " + status;
+				}
+				//append child
+				document.getElementById('showResults').appendChild(newElement);
+			});
+		},
+		//解析经纬度
+		toAddress:function(latLng){
+			 geoEach.latLng = latLng.toString();
+			//去除中间所有空格，将中文'，'号替换成英文','并按','分割
+			 geoEach.latLng =  geoEach.latLng.replace(/[(^\s+)(\s+$)]/g,"").replace('，',',').split(',');
+			//第一个值为纬度并转化为float类型
+			var lat = parseFloat( geoEach.latLng[0]);
+			//第二个值为经度并转化为float类型
+			var lng = parseFloat( geoEach.latLng[1]);
+			//执行geocode解析经纬度
+		   geoEach.geocoder.geocode({
+		  	//传入经纬度
+				'location' : new google.maps.LatLng(lat, lng)
+			},function(results, status){
+				//create div to show result
+				var newElement = window.document.createElement('p')
+			  if (status == google.maps.GeocoderStatus.OK) {
+			  	//获取解析后的经纬度
+					var location = results[0].geometry.location;
+					//切换地图位置
+					 geoEach.map.setCenter(location);
+					 geoEach.marker.setPosition(location);
+			  	//获取解析后的地址
+			  	var address = results[0].formatted_address;
+			    // insert result innerHTML
+					newElement.innerHTML =  geoEach.latLng + "：" + address;
+			  } else {
+					// insert error innerHTML
+					newElement.innerHTML =  geoEach.latLng + "：error " + status;
+				}
+				//append child
+			  document.getElementById('showResults').appendChild(newElement);
+			});
+		}
+	}
+</script>
+	<h1>雙向查詢地址</h1>
+			<button onclick="getLocation()">獲取您的位置</button>
+	<p id="demo"></p>
+	<script>
+	var x = document.getElementById("demo");
+	function getLocation() {
+	    if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(showPosition, showError);
+	    } else { 
+		x.innerHTML = "垃圾瀏覽器。";
+	    }
+	}
+
+	function showPosition(position) {
+	    x.innerHTML = "緯度: " + position.coords.latitude + 
+	    "<br>經度: " + position.coords.longitude;
+	}
+	function showError(error) {
+	    switch(error.code) {
+		case error.PERMISSION_DENIED:
+		    x.innerHTML = "權限不夠。"
+		    break;
+		case error.POSITION_UNAVAILABLE:
+		    x.innerHTML = "不可用定位。"
+		    break;
+		case error.TIMEOUT:
+		    x.innerHTML = "時間溢出。"
+		    break;
+		case error.UNKNOWN_ERROR:
+		    x.innerHTML = "未知錯誤。。。"
+		    break;
+	    }
+	}
+	</script>
+
+			
+			
+			
+			
+			
+	<h2>解析地名</h2>
+	<p>輸入要解析的地名（每個地名隔一行距離）<br />
+	輸入後按按鈕<br /></p>
+	<textarea name="" id="addrs" cols="30" rows="5">Yangmingshan, Taipei</textarea>
+	<br/>
+	<button id='toLatLngBtn'>解析地名</button>
+	<br />
+	<h2>解析經緯度</h2>
+	<p>輸入要解析的經緯度（每個地名隔一行距離）格式（緯度lat,經度lng）<br />
+		輸入後按按鈕<br /></p>
+	<textarea name="" id="latLngs" cols="30" rows="5">25.1942462, 121.56093629999998</textarea>
+	<br/>
+	<button id='toAddressBtn'>解析經緯度</button>
+	<br/>
+	<div id="map_canvas" style='width: auto; height:600px;'></div>
+	<div id="showResults"></div>
+	<br/>
+	<br/>
+
+</div>

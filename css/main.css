@@ -1,0 +1,128 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+@import url(//fonts.googleapis.com/css?family=Open+Sans);
+body { margin: auto auto; width: 75%;background: #000;font-family: 'Open Sans',sans-serif;}
+
+a { text-decoration: none; color: #c7bfbf; }
+a.mus{ font-size: 1em; line-height: 1.4em; text-decoration: none; color: #c7bfbf; }
+a:hover { text-decoration: underline; }
+em { font-style:italic; color:#fff; font-size: 1.7em; }
+
+.btn-group .button {
+    background-color: #000; /* noir */
+    border: none;
+    color: white;
+    padding: 10px 1.1em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.7em;
+    cursor: pointer;
+    float: left;
+    transition-duration: 0.4s;
+}
+
+.btn-group .button:hover {
+    background-color: #5b8c04;
+}
+
+p.meta { color: #32aabd; }
+p, ul { font-size: 1.3em; line-height: 1.4em; color: #fff; }
+p { font-family: 'Open Sans','Noto Sans TC','Cursive';}
+audio { width: 190px; height: 32px; margin-top: 10px;}
+p.mus { font-size: 1.5em; line-height: 1.4em; color: #fff; }
+
+h1, h2, h3, h4 { font-family:'Open Sans', 'Noto Sans TC'; color:#76b900;}
+h1 { font-size: 2.5em;  }
+h2 { font-size: 2.3em; }
+h3 { font-size: 2em; }
+h4 { font-size: 1.7em; }
+
+nav ul { font-size: 1.8em; font-family: 'Open Sans','Sans-Serif','Noto Sans TC';  list-style: none; font-weight: normal; box-shadow: 0px 3px 3px #000000; background: #000000;padding:0;}
+footer ul { font-size: 1.5em; font-family: 'Open Sans','Noto Sans TC';  list-style: none; font-weight: normal; box-shadow: 0px 3px 3px #3a3737;  background: #131c21;}
+nav ul li, footer ul li { display: inline; margin-right: 1.875em; }
+nav ul li2, footer ul li2 { display: inline; margin-right: 0px; }
+
+footer { border-top: 3px solid #76b900; font-size: .8em; }
+
+/* Blog */
+ul.posts { margin: 20px auto 40px; font-size: 1.5em; }
+ul.posts li { list-style: none; }
+
+/* CV */
+.cv { margin: 0px 0px 60px; }
+.cv h1 { font-size: 2.5em; }
+.cv h2 { font-size: 2.3em; }
+.cv address, .cv .download { font-family: 'Open Sans', 'Arial', 'Sans-Serif','Noto Sans TC';color: #ffffff;  }
+.cv address, .cv p { font-size: 1.3em; }
+.cv .download { float: right; font-size: .8em; text-transform: uppercase; }
+
+.video-container {
+position: relative;
+padding-bottom: 56.25%;
+padding-top: 30px; height: 0; overflow: hidden;
+}
+
+.video-container iframe,
+.video-container object,
+.video-container embed {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+}
+
+.topnav {
+ overflow: hidden;
+ background-color: #000;
+ padding-top: 15px;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 25px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+  transition-duration: 0.4s;
+}
+
+.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.topnav .icon {
+  display: none
+}
+
+ 
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+    transition-duration: 0.4s;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 15px;
+  }
+.topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
