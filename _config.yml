@@ -1,3 +1,3 @@
-name: Yugo blog
+name: N1grumHarenae blog
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
