@@ -149,6 +149,7 @@ title: Google Lat&Lng Search
 	function showPosition(position) {
 	    x.innerHTML = "緯度: " + position.coords.latitude + 
 	    "<br>經度: " + position.coords.longitude;
+		x.innerHTML = position.coords.latitude + "," + position.coords.longitude;
 	}
 	function showError(error) {
 	    switch(error.code) {
